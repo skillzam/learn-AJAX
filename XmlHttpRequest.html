@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XHR - XMLHttpRequest</title>
+</head>
+<body>
+    
+<!--
+    XHR - XMLHttpRequest object can be used to exchange data with a server behind the scenes. 
+    With this its possible to update parts of webpage, without reloading the page.
+    SYNTAX: 
+    declare variable = new XMLHttpRequest();
+-->    
+
+    <h1>Demo: XHR - XMLHttpRequest</h1>
+    <p id="para1"></p>
+
+    <script>
+
+        // Creates a new XMLHttpRequest object
+        const httpReq = new XMLHttpRequest(); 
+
+        httpReq.onload = function () {    
+            console.log("IT IS LOADED!!");
+
+            // responseText: returns response data as a string
+            document.getElementById("para1").innerHTML = this.responseText; 
+        };
+
+        // Send a request to a server, use the open() and send() methods 
+        // open() : Specifies the request 
+        // method: the request type GET or POST 
+        // url: the file location
+        // async: true (asynchronous) or false (synchronous)
+        httpReq.open("GET", "textFile.txt", true); 
+
+        //Sends the request to the server (used for GET)
+        httpReq.send(); 
+
+    </script>
+</body>
+</html>

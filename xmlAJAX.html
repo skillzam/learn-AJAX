@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AJAX XML</title>    
+        <style>
+            table, th, td {
+                border : 3px solid indigo;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 5px;
+            }
+        </style>
+</head>
+<body>
+
+    <h1>Demo: AJAX XML</h1>
+
+    <button type="button" onclick="loadXML()">Book Collections</button><br><br>
+
+    <table id="tbl"></table>
+
+    <script>
+
+        function loadXML() {
+
+            //creates an XMLHttpRequest object,
+            const httpReq = new XMLHttpRequest();
+
+            console.log(httpReq);
+
+            httpReq.onreadystatechange = function() {
+                //Adds the function to be executed when the server response is ready
+                if (this.readyState == 4 && this.status == 200) {
+                    booksFunc(this);
+                }
+            };
+
+            //Send a request to a server, use the open() and send() methods 
+            httpReq.open("GET", "books.xml", true);
+            httpReq.send();
+        }
+
+        // When the server response is ready, an HTML table is built, 
+        // nodes (elements) are extracted from the XML file, 
+        // and it finally updates the element "tbl" with the HTML table filled with XML data
+        function booksFunc(xml) {
+            let i;
+            
+            // responseXML: 	returns response data as XML data
+            let xmlBook = xml.responseXML;
+            
+            // Adding the table row header
+            let makeTable="<tr><th>Author</th><th>Title</th></tr>";
+
+            let bookTag = xmlBook.getElementsByTagName("book");
+            console.log(bookTag);
+            for (i = 0; i < bookTag.length; i++) {  // bookTag.length = 12
+                makeTable += "<tr><td>" +
+                bookTag[i].getElementsByTagName("author")[0].childNodes[0].nodeValue +
+                "</td><td>" +
+                bookTag[i].getElementsByTagName("title")[0].childNodes[0].nodeValue +
+                "</td></tr>";
+            }
+            document.getElementById("tbl").innerHTML = makeTable;
+        }
+
+    </script>
+
+</body>
+</html>
